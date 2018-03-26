@@ -22,9 +22,9 @@ for s in stops:
 
 time.sleep(1)
 
-	# GETS TIMES OF NEXT BUSES PER ROUTE
-
 while True:
+
+	# GETS CURRENT BUS TIMES
 
 	currentTime = time.time()
 	nxt_times = []
@@ -38,28 +38,33 @@ while True:
 		# IF NO BUSES ARE COMING
 
 		if len(nxt_times) == 0:
-
 			message = '      No buses today.      '
 
 		# IF ONE BUS IS COMING
 
 		elif len(nxt_times) == 1:
-
 			message = '      The next ' + bus_num + ' bus arrives in: ' + str(nxt_times[0]) + ' minutes.      '
 
 		# IF MULTIPLE BUSES ARE COMING
 
 		elif len(nxt_times) > 1:
-
 			message = '      The next ' + bus_num + ' buses arrive in: ' + (', '.join(str(e) for e in nxt_times[0:-1])) + ' and ' + str(nxt_times[-1]) + ' minutes.      '
+
+	prevTime = currentTime
+
+	# SETS MESSAGE TO SCROLL
 
 	sphd.write_string(message)
 
-	for i in range(sphd.get_buffer_shape()[0]):
+	# SCROLLS MESSAGE
+
+	msg_len = sphd.get_buffer_shape()[0]
+	for i in range(msg_len):
 		sphd.show()
 		sphd.scroll()
+
+	# CLEARS SCREEN AND PAUSES 2 SECONDS
+
 	sphd.clear()
 	sphd.show()
 	time.sleep(2)
-
-	prevTime = currentTime
