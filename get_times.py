@@ -27,32 +27,45 @@ while True:
 	# GETS CURRENT BUS TIMES
 
 	currentTime = time.time()
-	nxt_times = []
+	message = []
 	for pl in predictList:
+		nxt_times = []
 		bus_num = pl.data[1]
+		destination = pl.data[3]
+		if bus_num == '627':
+			bus_num = '62/76'
+		else:
+			bus_num = pl.data[1]
 		if pl.predictions:
 			for p in pl.predictions:
 				t = p - (currentTime - pl.lastQueryTime)
 				nxt_times.append(str(int(t/60)))
 
-		# IF NO BUSES ARE COMING
-
-		if len(nxt_times) == 0:
-			message = '      No buses today.      '
-
 		# IF ONE BUS IS COMING
 
-		elif len(nxt_times) == 1:
-			message = '      The next ' + bus_num + ' bus arrives in: ' + str(nxt_times[0]) + ' minutes.      '
+		if len(nxt_times) == 1:
+			string = '      The next ' + bus_num + ' bus arrives in: ' + str(nxt_times[0]) + ' minutes.      '
+			message.append(string)
 
 		# IF MULTIPLE BUSES ARE COMING
 
 		elif len(nxt_times) > 1:
-			message = '      The next ' + bus_num + ' buses arrive in: ' + (', '.join(str(e) for e in nxt_times[0:-1])) + ' and ' + str(nxt_times[-1]) + ' minutes.      '
+			string = '      The next ' + bus_num + ' buses arrive in: ' + (', '.join(str(e) for e in nxt_times[0:-1])) + ' and ' + str(nxt_times[-1]) + ' minutes.      '
+			message.append(string)
+	
+	# MESSAGE FOR IF NO BUSES ARE COMING
+
+	if message == []:
+		message = '      No buses today.      '
+
+	# MESSAGE FOR IF BUSES ARE COMING
+
+	else:
+		message = ' '.join(str(e) for e in message)
 
 	prevTime = currentTime
 
-	# SETS MESSAGE TO SCROLL
+	# SETS MESSAGE TO BUFFER
 
 	sphd.write_string(message)
 
