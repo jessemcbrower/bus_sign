@@ -7,13 +7,15 @@ A project using NextBus data to tell me when my next bus is coming
 Run routefinder.py to find your stops
 
 ```
-1. Delete everything inside of stops = []
+1. Open get_times.py in an editor
 
-2. Run routefinder.py
+2. Delete everything inside of stops = []
 
-3. Paste results into stops = []
+3. Run routefinder.py
 
-4. Repeat as needed
+4. Paste results into stops = []
+
+5. Repeat steps 3 & 4 as needed
 ```
 
 ## To start app on power up:
